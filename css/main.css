@@ -1,9 +1,8 @@
 /* Root Variables for Colors and Fonts */
 :root {
-    --primary-color: #ffffff;      /* White text */
-    --secondary-color: #333;       /* Darker text color for bubbles */
-    --background-color: #000000;   /* Black background */
-    --bubble-background: #888888;  /* Grey background for bubbles */
+    --primary-color: #4CAF50;       /* Adjust as needed for buttons and accents */
+    --secondary-color: #FFFFFF;     /* White text */
+    --background-color: #000000;    /* Black background */
     --font-family: 'Roboto', sans-serif;
 }
 
@@ -12,8 +11,8 @@ body {
     margin: 0;
     font-family: var(--font-family);
     font-size: 18px; /* Larger font size for readability */
-    background-color: var(--background-color); /* Black background */
-    color: var(--primary-color); /* White text */
+    background-color: var(--background-color); /* Set background to black */
+    color: var(--secondary-color); /* Set text to white */
 }
 
 /* Disabled State Styling */
@@ -30,14 +29,14 @@ body {
     font-weight: bold;
     padding: 10px 20px;
     border-radius: 5px;
-    background-color: var(--secondary-color);
-    color: white;
+    background-color: var(--secondary-color); /* White button with black text */
+    color: var(--background-color);
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 #download:hover, #update:hover {
-    background-color: #555555;
+    background-color: var(--primary-color);
 }
 
 /* Form Section Visibility */
@@ -53,27 +52,28 @@ form > div.form-show {
 table {
     width: 100%;
     table-layout: fixed;
-    background-color: var(--bubble-background); /* Grey for bubbles */
+    background-color: #333333; /* Dark gray for contrast with white text */
     border-radius: 8px;
     padding: 10px;
+    color: var(--secondary-color);
 }
 
 td {
     display: inline-block;
     padding: 10px;
     font-size: 16px; /* Larger for visibility */
-    color: black; /* Black text within bubbles */
-    background-color: var(--bubble-background); /* Grey background */
+    color: var(--secondary-color);
 }
 
 tr td:first-child {
-    width: 100px;
+    width: 100px; /* Increased width for better spacing */
 }
 
 /* Checkbox Styling */
 input[type="checkbox"] {
-    accent-color: var(--primary-color); /* White checkbox accent */
-    transform: scale(1.5); /* Make checkboxes larger */
+    accent-color: var(--primary-color); /* Custom color */
+    transform: scale(1.5); /* Larger checkbox */
+    color: var(--secondary-color); /* White checkmark on black */
 }
 
 /* Responsive Adjustments for Smaller Screens */
