@@ -1,18 +1,73 @@
+/* Font Face for Custom Font */
+@font-face {
+    font-family: 'Eurostile Extd Black'; /* Keep this as is for the font-family name */
+    src: url('./font/EurostileExtdBlack.otf') format('opentype'); /* Correct path to the font file */
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Root Variables for Colors and Fonts */
 :root {
     --primary-color: #4CAF50;       /* Adjust as needed for buttons and accents */
     --secondary-color: #FFFFFF;     /* White text */
     --background-color: #000000;    /* Black background */
-    --font-family: 'Roboto', sans-serif;
+    --font-family: 'Eurostile Extd Black', sans-serif; /* Use the custom font */
 }
 
 /* Body Styling */
 body {
     margin: 0;
-    font-family: var(--font-family);
-    font-size: 18px; /* Larger font size for readability */
+    font-family: var(--font-family); /* Apply the custom font */
+    font-size: 18px;
     background-color: var(--background-color); /* Set background to black */
     color: var(--secondary-color); /* Set text to white */
+}
+
+/* Apply black background to most elements */
+* {
+    background-color: var(--background-color) !important;
+    color: var(--secondary-color) !important;
+    box-shadow: none; /* Remove shadows if present */
+    max-width: none !important; /* Remove any max-width limits */
+}
+
+/* Ensure specific containers are black */
+table, form, .main-container, .bubble-background {
+    background-color: var(--background-color) !important;
+}
+
+/* Main Container Styling with Full Width */
+.main-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Creates two columns */
+    grid-gap: 20px; /* Space between grid items */
+    width: 100vw !important; /* Full viewport width */
+    max-width: none !important; /* Remove any maximum width constraints */
+    padding: 20px;
+    margin: 0 auto;
+    box-sizing: border-box; /* Ensure padding doesn’t affect width */
+}
+
+/* Form Section Styling for Compact Layout */
+form > div {
+    padding: 10px;
+}
+
+/* Adjust input fields and labels to align horizontally */
+form > div label, form > div input {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 10px;
+}
+
+form > div label {
+    width: 40%; /* Adjust label width */
+    margin-right: 10px;
+    text-align: right;
+}
+
+form > div input {
+    width: 50%; /* Adjust input width */
 }
 
 /* Disabled State Styling */
@@ -41,10 +96,6 @@ body {
 
 /* Form Section Visibility */
 form > div {
-    display: none;
-}
-
-form > div.form-show {
     display: block;
 }
 
@@ -52,7 +103,6 @@ form > div.form-show {
 table {
     width: 100%;
     table-layout: fixed;
-    background-color: #333333; /* Dark gray for contrast with white text */
     border-radius: 8px;
     padding: 10px;
     color: var(--secondary-color);
@@ -69,15 +119,46 @@ tr td:first-child {
     width: 100px; /* Increased width for better spacing */
 }
 
+/* Styling for Text Boxes */
+input[type="text"], input[type="number"], textarea, select {
+    background-color: #FFFFFF !important; /* White background for inputs */
+    color: #000000 !important; /* Black text for readability */
+    border: 1px solid #CCCCCC; /* Light gray border */
+    padding: 5px;
+    border-radius: 4px;
+}
+
+/* Hover and Focus Effects for Input Fields */
+input[type="text"]:focus, input[type="number"]:focus, textarea:focus, select:focus {
+    border-color: var(--primary-color); /* Accent color on focus */
+    outline: none; /* Remove default outline */
+}
+
 /* Checkbox Styling */
 input[type="checkbox"] {
     accent-color: var(--primary-color); /* Custom color */
-    transform: scale(1.5); /* Larger checkbox */
+    transform: scale(1.5); /* Make checkboxes larger */
     color: var(--secondary-color); /* White checkmark on black */
 }
 
 /* Responsive Adjustments for Smaller Screens */
 @media (max-width: 768px) {
+    .main-container {
+        grid-template-columns: 1fr; /* Single-column layout on mobile */
+        text-align: center;
+    }
+
+    form > div label {
+        width: 100%; /* Labels take up full width on mobile */
+        text-align: left;
+        margin: 0;
+        margin-bottom: 5px; /* Small margin below each label */
+    }
+
+    form > div input {
+        width: 100%; /* Inputs also full width on mobile */
+    }
+
     body {
         font-size: 16px;
     }

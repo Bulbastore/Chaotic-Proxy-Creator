@@ -1,241 +1,353 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="./css/main.css" />
-        <link rel="stylesheet" href="./font/fonts.css" />
-    </head>
-    <body><div style="height: 100%; display: flex;">
-        <div style="margin: 0 auto auto; width: 350px; background-color: rgba(114, 109, 109, .95);">
-            <div style="margin: 0 auto;">
-                <canvas id="canvas" width=250 height=350 style="display: block; margin: auto;"></canvas>    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/main.css" />
+    <style>
+        /* Font Face for Custom Font */
+        @font-face {
+            font-family: 'Eurostile Extd Black';
+            src: url('./font/EurostileExtdBlack.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Root Variables for Colors and Fonts */
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #FFFFFF;
+            --background-color: #000000;
+            --font-family: 'Eurostile Extd Black', sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            margin: 0;
+            font-family: var(--font-family);
+            font-size: 18px;
+            background-color: var(--background-color);
+            color: var(--secondary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Main Container Styling */
+        .main-container {
+            width: 80%;
+            max-width: 800px;
+            background-color: rgba(114, 109, 109, 0.95);
+            padding: 20px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Centering Card Type */
+        .input-field {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center; /* Center contents */
+        }
+
+        /* Two-column form layout with max-width for each column */
+        .form-section {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .column {
+            max-width: 320px; /* About 5 inches */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Row styling for Stats */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            max-width: 640px; /* About 10 inches */
+            margin: 0 auto;
+            justify-content: space-between;
+        }
+
+        /* Input and label styling */
+        label {
+            font-weight: bold;
+            width: 100px; /* Align labels uniformly */
+            margin-right: 10px;
+            text-align: right;
+        }
+
+        .input-field {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="text"], input[type="number"], select, textarea {
+            background-color: #FFFFFF;
+            color: #000000;
+            border: 1px solid #CCCCCC;
+            padding: 5px;
+            border-radius: 4px;
+            width: 150%; /* Make them 50% wider */
+            max-width: 100%;
+        }
+
+        /* Centered dropdown styling */
+        select {
+            width: 200px; /* Set a specific width for the dropdown */
+        }
+
+        /* Increase height of Ability and Flavor text boxes */
+        #ability, #flavor {
+            height: 60px; /* Previous size */
+        }
+
+        /* Button Styling */
+        button {
+            padding: 12px 25px; /* Adjust padding for buttons */
+            border-radius: 5px;
+            font-weight: bold;
+            background-color: var(--primary-color);
+            color: var(--background-color);
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: 1px solid #FFFFFF; /* Add white border to buttons */
+            font-family: var(--font-family); /* Same font as rest */
+            font-size: 22px; /* Increase font size for buttons */
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Unique, Legendary, Loyal styling */
+        .checkbox-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px; /* Space between items */
+        }
+
+        /* Additional spacing for legendary checkbox */
+        #legendary-field {
+            margin-left: 40px; /* Increased space before the checkbox */
+        }
+
+        /* Checkbox for Elements */
+        #elements {
+            display: flex;
+            align-items: center; /* Align elements vertically centered */
+            gap: 20px; /* Uniform space between element labels and checkboxes */
+        }
+
+        /* Responsive layout for mobile */
+        @media (max-width: 768px) {
+            .form-section {
+                flex-direction: column;
+            }
+
+            .row {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            label {
+                text-align: left;
+                width: auto;
+            }
+
+            .column, .row {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <canvas id="canvas" width="500" height="700" style="display: block; margin: auto;"></canvas>
+        <div class="input-field">
+            <label for="type">Card Type</label>
+            <select id="type" name="type" onchange="updateFields()">
+                <option value="" disabled selected>Choose Type</option>
+                <option value="attack">Attack</option>
+                <option value="battlegear">Battlegear</option>
+                <option value="creature">Creature</option>
+                <option value="location">Location</option>
+                <option value="mugic">Mugic</option>
+            </select>
+        </div>
+
+        <div class="form-section">
+            <!-- Column 1 -->
+            <div class="column">
+                <div class="input-field" id="tribe-field">
+                    <label for="tribe">Tribe</label>
+                    <select id="tribe" name="tribe">
+                        <option value="tribeless">Tribeless</option>
+                        <option value="overworld">OverWorld</option>
+                        <option value="underworld">UnderWorld</option>
+                        <option value="mipedian">Mipedian</option>
+                        <option value="danian">Danian</option>
+                        <option value="m'arrillian">M'arrillian</option>
+                    </select>
+                </div>
+                <div class="input-field" id="name-field">
+                    <label for="name">Name</label>
+                    <input id="name" name="name" type="text">
+                </div>
+                <div class="input-field" id="subname-field">
+                    <label for="subname">Subname</label>
+                    <input id="subname" name="subname" type="text">
+                </div>
+                <div class="input-field" id="set-field">
+                    <label for="set">Set</label>
+                    <select id="set" name="set">
+                        <option value="">None</option>
+                        <option value="dop">Dawn Of Perim</option>
+                        <option value="zoth">Zenith of the Hive</option>
+                        <option value="btd">M'arrillian Invasion</option>
+                        <option value="roto">Rise of the Oligarch</option>
+                        <option value="tott">Turn of the Tide</option>
+                        <option value="fun">Forged Unity</option>
+                        <option value="au">Alliances Unraveled</option>
+                        <option value="fas">Fire and Stone</option>
+                    </select>
+                </div>
+                <div class="input-field" id="rarity-field">
+                    <label for="rarity">Rarity</label>
+                    <select id="rarity" name="rarity">
+                        <option value="common">Common</option>
+                        <option value="uncommon">Uncommon</option>
+                        <option value="rare">Rare</option>
+                        <option value="super rare">Super Rare</option>
+                        <option value="ultra rare">Ultra Rare</option>
+                        <option value="promo">Promo</option>
+                    </select>
+                </div>
+                <div class="input-field" id="subtype-field">
+                    <label for="subtype">Subtype</label>
+                    <input id="subtype" name="subtype" type="text">
+                </div>
             </div>
-            <p></p>
-            <div  style="margin: 0 auto;">
-                <button id="update" class="isDisabled" onclick="submit();">Update</button>
-                <a id="download" class="isDisabled" download="" href="" onclick="download_img(this);"><button type="button">Download</button></a>
+
+            <!-- Column 2 -->
+            <div class="column">
+                <div class="input-field" id="ability-field">
+                    <label for="ability">Ability</label>
+                    <textarea id="ability" name="ability"></textarea>
+                </div>
+                <div class="input-field" id="flavor-field">
+                    <label for="flavor">Flavor</label>
+                    <textarea id="flavor" name="flavor"></textarea>
+                </div>
+                <div class="input-field" id="artist-field">
+                    <label for="artist">Artist</label>
+                    <input id="artist" name="artist" type="text">
+                </div>
+                <div class="input-field" id="art-field">
+                    <label for="art">Art</label>
+                    <input id="art" type="file" accept="image/*">
+                </div>
             </div>
-            <p></p>
-            <div style="margin-left: 8px;">
-                <table>
-                    <tr>
-                        <td style="width: 70px;"><label for="art">Art</label></td>
-                        <td><input id="art" type="file" accept="image/*"></td>
-                    </tr>
-                </table>
-                <form id="common-form" autocomplete="off"> 
-                    <table>
-                        <tr>
-                            <td><label for="type">Card Type</label></td>
-                            <td><select id="type" name="type">
-                                <option disabled selected value style="display:none"></option>
-                                <option value="attack">Attack</option>
-                                <option value="battlegear">Battlegear</option>
-                                <option value="creature">Creature</option>
-                                <option value="location">Location</option>                  
-                                <option value="mugic">Mugic</option>
-                            </select></td>
-                        </tr>
-                       <!-- For tweaking the offsets in real time
-                        <tr>
-                            <td><label for="offsetx">OffsetX</label></td>
-                            <td><input id="offsetx" name="offsetx" type="text" value="21.2"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="offsety">OffsetY</label></td>
-                            <td><input id="offsety" name="offsety" type="text" value="225"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="maxx">MaxX</label></td>
-                            <td><input id="maxx" name="maxx" type="text" value="228.94"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="maxy">MaxY</label></td>
-                            <td><input id="maxy" name="maxy" type="text" value="191.9"></td>
-                        </tr>
-                        -->
-                        <tr>
-                            <td><label for="name">Name</label></td>
-                            <td><input id="name" name="name" type="text"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="name">Subname</label></td>
-                            <td><input id="subname" name="subname" type="text"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="upper">Uppercase</label></td>
-                            <td><input type="checkbox" id="upper" name="upper" value="true" checked></td>
-                        </tr>
-                        <tr>
-                            <td><label for="subtype">Subtype(s)</td>
-                            <td><input id="subtype" name="subtype" type="text"></td>
-                        </tr> 
-                        <tr>
-                            <td><label for="set">Set</label></td>
-                            <td><select id="set" name="set">
-                            <option value>None</option>
-                            <option selected value="dop">Dawn Of Perim</option>
-                            <option value="zoth">Zenith of the Hive</option>
-                            <option value="btd">M'arrillian Invasion</option>
-                            <option value="roto">Rise of the Oligarch</option>
-                            <option value="tott">Turn of the Tide</option>
-                            <option value="fun">Forged Unity</option>
-                            <option value="au">Alliances Unraveled</option>
-                            <option value="fas">Fire and Stone</option>
-                            </select></td>
-                        </tr>
-                        <tr>
-                            <td><label for="rarity">Rarity</label></td>
-                            <td><select id="rarity" name="rarity">
-                                <option selected value="common">Common</option>
-                                <option value="uncommon">Uncommon</option>
-                                <option value="rare">Rare</option>
-                                <option value="super rare">Super Rare</option>
-                                <option value="ultra rare">Ultra Rare</option>
-                                <option value="promo">Promo</option>
-                            </select></td>
-                        </tr>
-                    </table>
-                    <div style="width: 100%; display: flex; margin: 2px">
-                        <div style="float: left; display: block; padding: 1px; width: 74px; ">
-                            <label for="unique">Unique</label>
-                            <input type="checkbox" id="unique" name="unique" value="true">
-                        </div>
-                        <div style="float: left; display: block; padding: 1px;">
-                            <label for="legendary">Legendary</label>
-                            <input type="checkbox" id="legendary" name="legendary" value="true">
-                        </div>
-                    </div>
-                    <table>
-                        <tr>
-                            <td>
-                                <label for="loyal">Loyal</label>
-                                <span style="padding-right: 10px;"></span>
-                                <input type="checkbox" id="loyal" name="loyal" value="true" style="margin-right: 0">
-                            </td>
-                            <td><input type="text" id="loyal_restrict" name="loyal_restrict"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="ability">Ability</label></td>
-                            <td><textarea id="ability" name="ability" rows="4" cols="22"></textarea></td>
-                        </tr>
-                        <tr>
-                            <td><label for="ability">Flavor</label></td>
-                            <td><textarea id="flavor" name="flavor" rows="2" cols="22"></textarea></td>
-                        </tr>
-                        <tr>
-                            <td><label for="name">Artist</label></td>
-                            <td><input id="artist" name="artist" type="text"></td>
-                        </tr>
-                    </table>
-                </form>
-                <form id="type-form">
-                    <div class="creature mugic">
-                        <label for="tribe">Tribe:</label>
-                        <select id="tribe" name="tribe">
-                            <option disabled value style="display:none"></option>
-                            <option selected value="tribeless">Tribeless</option>
-                            <option value="overworld">OverWorld</option>
-                            <option value="underworld">UnderWorld</option>
-                            <option value="mipedian">Mipedian</option>
-                            <option value="danian">Danian</option>
-                            <option value="m'arrillian">M'arrillian</option>
-                        </select>
-                    </div>
-                    <div class="creature">
-                        <p></p>
-                        <span>Elements:</label>
-                        <table>
-                            <tr>
-                                <td>
-                                    <label for="fire">Fire</label>
-                                    <input type="checkbox" id="fire" name="fire" value="true">
-                                </td>
-                                <td>
-                                    <label for="air">Air</label>
-                                    <input type="checkbox" id="air" name="air" value="true">
-                                </td>
-                                <td>
-                                    <label for="earth">Earth</label>
-                                    <input type="checkbox" id="earth" name="earth" value="true">
-                                </td>
-                                <td>
-                                    <label for="water">Water</label>
-                                    <input type="checkbox" id="water" name="water" value="true">
-                                </td>
-                            </tr>
-                        </table>
-                        <table>
-                            <tr>
-                                <td><label for="courage">Courage</label></td>
-                                <td><input id="courage" name="courage" type="text" maxlength="4" size="4"></td>
-                                <td><label for="power">Power</label></td>
-                                <td><input id="power" name="power" type="text" maxlength="4" size="4"></td>
-                            </tr>
-                            <tr>
-                                <td><label for="wisdom">Wisdom</label></td>
-                                <td><input id="wisdom" name="wisdom" type="text" maxlength="4" size="4"></td>
-                                <td><label for="speed">Speed</label></td>
-                                <td><input id="speed" name="speed" type="text" maxlength="4" size="4"></td>
-                            </tr>
-                            <tr>
-                                <td><label for="mc">Mugic Ability</label></td>
-                                <td><input id="mc" name="mc" type="text" maxlength="1" size="4"></td>
-                                <td><label for="energy">Energy</label></td>
-                                <td><input id="energy" name="energy" type="text" maxlength="4" size="4"></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="attack">
-                        <table>
-                            <tr>
-                                <td><label for="basedamage">Base</label></td>
-                                <td><input id="basedamage" name="basedamage" type="text" maxlength="4" size="4" value="0"></td>
-                                <td><label for="bp">B.P.</label></td>
-                                <td><input id="bp" name="bp" type="text" maxlength="4" size="4" value="0"></td>
-                            </tr> 
-                            <tr>
-                                <td><label for="firedamage">Fire</label></td>
-                                <td><input id="firedamage" name="firedamage" type="text" maxlength="4" size="4"></td> 
-                                <td><label for="airdamage">Air</label></td>
-                                <td><input id="airdamage" name="airdamage" type="text" maxlength="4" size="4"></td>
-                            </tr> 
-                            <tr>
-                                <td><label for="earthdamage">Earth</label></td>
-                                <td><input id="earthdamage" name="earthdamage" type="text" maxlength="4" size="4"></td> 
-                                <td><label for="waterdamage">Water</label></td>
-                                <td><input id="waterdamage" name="waterdamage" type="text" maxlength="4" size="4"></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="location">
-                        <table>
-                            <tr>
-                                <td><label for="initiative">Initiative</label></td>
-                                <td><input id="initiative" name="initiative" type="text"></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="mugic">
-                        <table>
-                            <tr>
-                                <td><label for="cost">Mugic Cost</label></td>
-                                <td><input id="cost" name="cost" type="text" maxlength="1" size="4"></td>
-                            </tr> 
-                        </table>
-                    </div>
-                </form>
+        </div>
+
+        <!-- Unique, Legendary, Loyal -->
+        <div class="row checkbox-row">
+            <div class="input-field" id="unique-field">
+                <label for="unique">Unique</label>
+                <input type="checkbox" id="unique" name="unique" value="true">
             </div>
-        </div></div>
-        <!-- Due to font loading missing the timing on first render, we load all of the fonts into empty elements-->
-        <span style="font-family: Eurostile;"></span>
-        <span style="font-family: Eurostile-Normal"></span>
-        <span style="font-family: Eurostile-Bold"></span>
-        <span style="font-family: Eurostile-BoldExtendedTwo;"></span>
-        <!-- Load and bind the javascript to the button event handlers-->
-        <script type="module">
-            import {download, submit} from './js/index.js';
-            window.download_img = download;
-            window.submit = submit;
-        </script>
-    </body>
+            <div class="input-field" id="legendary-field">
+                <label for="legendary">Legendary</label>
+                <input type="checkbox" id="legendary" name="legendary" value="true" style="margin-left: 25px;"> <!-- Increased spacing -->
+            </div>
+            <div class="input-field" id="loyal-field">
+                <label for="loyal">Loyal</label>
+                <input type="checkbox" id="loyal" name="loyal" value="true">
+                <input type="text" id="loyal_restrict" name="loyal_restrict">
+            </div>
+        </div>
+
+        <!-- Elements -->
+        <div class="input-field" id="elements">
+            <label for="fire">Fire</label>
+            <input type="checkbox" id="fire" name="fire" value="true">
+            <label for="air">Air</label>
+            <input type="checkbox" id="air" name="air" value="true">
+            <label for="earth">Earth</label>
+            <input type="checkbox" id="earth" name="earth" value="true">
+            <label for="water">Water</label>
+            <input type="checkbox" id="water" name="water" value="true">
+        </div>
+
+        <!-- Stats -->
+        <div class="row">
+            <div class="input-field">
+                <label for="energy">Energy</label>
+                <input id="energy" name="energy" type="text" maxlength="4" style="width: 50px;"> <!-- Shorter width -->
+            </div>
+            <div class="input-field">
+                <label for="courage">Courage</label>
+                <input id="courage" name="courage" type="text" maxlength="4" style="width: 50px;">
+            </div>
+            <div class="input-field">
+                <label for="power">Power</label>
+                <input id="power" name="power" type="text" maxlength="4" style="width: 50px;">
+            </div>
+            <div class="input-field">
+                <label for="wisdom">Wisdom</label>
+                <input id="wisdom" name="wisdom" type="text" maxlength="4" style="width: 50px;">
+            </div>
+            <div class="input-field">
+                <label for="speed">Speed</label>
+                <input id="speed" name="speed" type="text" maxlength="4" style="width: 50px;">
+            </div>
+            <div class="input-field">
+                <label for="mc">Mugic Ability</label>
+                <input id="mc" name="mc" type="text" maxlength="1" style="width: 50px;">
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button id="update" onclick="submit();">Update</button>
+            <button id="download" download="" href="" onclick="download_img(this);">Download</button>
+        </div>
+    </div>
+
+    <!-- JavaScript to Handle Conditional Display of Fields -->
+    <script type="module">
+        import { download, submit } from './js/index.js';
+        window.download_img = download;
+        window.submit = submit;
+
+        function updateFields() {
+            const type = document.getElementById('type').value;
+            const allFields = document.querySelectorAll('.input-field');
+            allFields.forEach(field => field.style.display = 'none'); // Hide all fields by default
+
+            const typeFields = {
+                attack: ['art-field', 'name-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'ability-field', 'artist-field', 'elements', 'energy', 'courage', 'power', 'wisdom', 'speed', 'mc'],
+                battlegear: ['art-field', 'name-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'legendary-field', 'ability-field', 'artist-field'],
+                creature: ['art-field', 'name-field', 'subname-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'legendary-field', 'loyal-field', 'ability-field', 'flavor-field', 'artist-field', 'tribe-field', 'elements', 'energy', 'courage', 'power', 'wisdom', 'speed', 'mc'],
+                location: ['name-field', 'subname-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'ability-field', 'flavor-field', 'artist-field', 'initiative-field'],
+                mugic: ['name-field', 'subname-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'ability-field', 'flavor-field', 'artist-field', 'tribe-field', 'mc'],
+            };
+
+            if (typeFields[type]) {
+                typeFields[type].forEach(id => document.getElementById(id).style.display = 'flex');
+            }
+        }
+    </script>
+</body>
 </html>

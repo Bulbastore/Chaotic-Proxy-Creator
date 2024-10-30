@@ -25,11 +25,10 @@ changeType.addEventListener("change", function() {
     });
 
     updateCommonConfig("type", this.value);
+    
+    // Call updateFields to show relevant fields based on selected type
+    updateFields();
 
-    const types = document.querySelectorAll(`#type-form > .${this.value}`);
-    Array.from(types).forEach(type => {
-        type.classList.add("form-show");
-    });
     updatebtn.classList.remove("isDisabled");
 });
 
@@ -46,7 +45,6 @@ uploadArt.addEventListener("change", function() {
 }, false);
 
 /* Exposed functions */
-
 export function submit() {
     if (!updatebtn.classList.contains("isDisabled")) {
         createCard().then(() => {
@@ -58,5 +56,24 @@ export function submit() {
 export function download (el) {
     if (!downloadbtn.classList.contains("isDisabled")) {
         setDownload(el);
+    }
+}
+
+// Function to update displayed fields based on selected card type
+function updateFields() {
+    const type = document.getElementById('type').value;
+    const allFields = document.querySelectorAll('.input-field');
+    allFields.forEach(field => field.style.display = 'none'); // Hide all fields by default
+
+    const typeFields = {
+        attack: ['art-field', 'name-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'ability-field', 'artist-field', 'base-field', 'bp-field', 'elements', 'energy', 'courage', 'power', 'wisdom', 'speed', 'mc'],
+        battlegear: ['art-field', 'name-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'legendary-field', 'ability-field', 'artist-field'],
+        creature: ['art-field', 'name-field', 'subname-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'legendary-field', 'loyal-field', 'ability-field', 'flavor-field', 'artist-field', 'tribe-field', 'elements', 'energy', 'courage', 'power', 'wisdom', 'speed', 'mc'],
+        location: ['name-field', 'subname-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'ability-field', 'flavor-field', 'artist-field', 'initiative-field'],
+        mugic: ['name-field', 'subname-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'ability-field', 'flavor-field', 'artist-field', 'tribe-field', 'mc'],
+    };
+
+    if (typeFields[type]) {
+        typeFields[type].forEach(id => document.getElementById(id).style.display = 'flex');
     }
 }
