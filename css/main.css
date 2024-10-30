@@ -1,44 +1,98 @@
-body {
-    margin: 0;
-    background-position: center 0;
-    background-repeat: no-repeat;
-    background-image: url("../img/background.jpg");
-    background-size: cover;
+/* Root Variables for Colors and Fonts */
+:root {
+    --primary-color: #ffffff;      /* White text */
+    --secondary-color: #333;       /* Darker text color for bubbles */
+    --background-color: #000000;   /* Black background */
+    --bubble-background: #888888;  /* Grey background for bubbles */
+    --font-family: 'Roboto', sans-serif;
 }
 
+/* Body Styling */
+body {
+    margin: 0;
+    font-family: var(--font-family);
+    font-size: 18px; /* Larger font size for readability */
+    background-color: var(--background-color); /* Black background */
+    color: var(--primary-color); /* White text */
+}
+
+/* Disabled State Styling */
 .isDisabled {
-    color: currentColor;
-    /* cursor: not-allowed; */
+    color: grey;
     opacity: 0.5;
     pointer-events: none;
 }
 
+/* Buttons */
 #download, #update {
     text-decoration: none;
+    color: var(--primary-color);
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: var(--secondary-color);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
+#download:hover, #update:hover {
+    background-color: #555555;
+}
+
+/* Form Section Visibility */
 form > div {
     display: none;
 }
 
 form > div.form-show {
-    display: inherit;
+    display: block;
 }
 
+/* Table and Cell Styling */
 table {
     width: 100%;
     table-layout: fixed;
+    background-color: var(--bubble-background); /* Grey for bubbles */
+    border-radius: 8px;
+    padding: 10px;
 }
 
 td {
     display: inline-block;
+    padding: 10px;
+    font-size: 16px; /* Larger for visibility */
+    color: black; /* Black text within bubbles */
+    background-color: var(--bubble-background); /* Grey background */
 }
 
 tr td:first-child {
-    width: 70px;
+    width: 100px;
 }
 
+/* Checkbox Styling */
 input[type="checkbox"] {
-    accent-color: #1F1F1F;
-    color: grey
+    accent-color: var(--primary-color); /* White checkbox accent */
+    transform: scale(1.5); /* Make checkboxes larger */
+}
+
+/* Responsive Adjustments for Smaller Screens */
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+
+    table {
+        padding: 5px;
+    }
+
+    td {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    #download, #update {
+        font-size: 16px;
+        padding: 8px 16px;
+    }
 }
