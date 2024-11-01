@@ -1,179 +1,240 @@
 /* Font Face for Custom Font */
 @font-face {
-    font-family: 'Eurostile Extd Black'; /* Keep this as is for the font-family name */
-    src: url('./font/EurostileExtdBlack.otf') format('opentype'); /* Correct path to the font file */
+    font-family: 'Eurostile Extd Black';
+    src: url('./font/EurostileExtdBlack.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 
 /* Root Variables for Colors and Fonts */
 :root {
-    --primary-color: #4CAF50;       /* Adjust as needed for buttons and accents */
-    --secondary-color: #FFFFFF;     /* White text */
-    --background-color: #000000;    /* Black background */
-    --font-family: 'Eurostile Extd Black', sans-serif; /* Use the custom font */
+    --primary-color: #4CAF50;
+    --secondary-color: #FFFFFF;
+    --background-color: #000000;
+    --font-family: 'Eurostile Extd Black', sans-serif;
 }
 
 /* Body Styling */
 body {
     margin: 0;
-    font-family: var(--font-family); /* Apply the custom font */
+    font-family: var(--font-family);
     font-size: 18px;
-    background-color: var(--background-color); /* Set background to black */
-    color: var(--secondary-color); /* Set text to white */
+    background-color: #000000;
+    color: var(--secondary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-/* Apply black background to most elements */
-* {
-    background-color: var(--background-color) !important;
-    color: var(--secondary-color) !important;
-    box-shadow: none; /* Remove shadows if present */
-    max-width: none !important; /* Remove any max-width limits */
-}
-
-/* Ensure specific containers are black */
-table, form, .main-container, .bubble-background {
-    background-color: var(--background-color) !important;
-}
-
-/* Main Container Styling with Full Width */
+/* Main Container Styling */
 .main-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Creates two columns */
-    grid-gap: 20px; /* Space between grid items */
-    width: 100vw !important; /* Full viewport width */
-    max-width: none !important; /* Remove any maximum width constraints */
+    width: 80%;
+    max-width: 800px;
+    background-color: rgb(0, 0, 0);
     padding: 20px;
     margin: 0 auto;
-    box-sizing: border-box; /* Ensure padding doesn’t affect width */
+    box-sizing: border-box;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-/* Form Section Styling for Compact Layout */
-form > div {
-    padding: 10px;
+/* Input Fields and Labels */
+.input-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
 }
 
-/* Adjust input fields and labels to align horizontally */
-form > div label, form > div input {
-    display: inline-block;
-    vertical-align: middle;
-    margin-bottom: 10px;
+/* Form Section Layout */
+.form-section {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
 }
 
-form > div label {
-    width: 40%; /* Adjust label width */
+.column {
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Row Styling */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 640px;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
+/* Label Styling */
+label {
+    font-weight: bold;
+    width: 100px;
     margin-right: 10px;
     text-align: right;
 }
 
-form > div input {
-    width: 50%; /* Adjust input width */
+/* Input Styling */
+input[type="text"], 
+input[type="number"], 
+select, 
+textarea {
+    background-color: #FFFFFF;
+    color: #000000;
+    border: 1px solid #CCCCCC;
+    padding: 5px;
+    border-radius: 4px;
+    width: 150%;
+    max-width: 100%;
 }
 
-/* Disabled State Styling */
-.isDisabled {
-    color: grey;
-    opacity: 0.5;
-    pointer-events: none;
+/* Select Dropdown */
+select {
+    width: 200px;
 }
 
-/* Buttons */
-#download, #update {
-    text-decoration: none;
-    color: var(--primary-color);
-    font-weight: bold;
-    padding: 10px 20px;
+/* Textarea Height */
+#ability, 
+#flavor {
+    height: 60px;
+}
+
+/* Button Styling */
+button {
+    padding: 12px 25px;
     border-radius: 5px;
-    background-color: var(--secondary-color); /* White button with black text */
+    font-weight: bold;
+    background-color: var(--primary-color);
     color: var(--background-color);
     cursor: pointer;
     transition: background-color 0.3s;
+    border: 1px solid #FFFFFF;
+    font-family: var(--font-family);
+    font-size: 22px;
 }
 
-#download:hover, #update:hover {
-    background-color: var(--primary-color);
+button:hover {
+    background-color: var(--secondary-color);
 }
 
-/* Form Section Visibility */
-form > div {
-    display: block;
+/* Checkbox Row */
+.checkbox-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
 }
 
-/* Table and Cell Styling */
-table {
+/* Number Slider Styling */
+.number-slider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     width: 100%;
-    table-layout: fixed;
-    border-radius: 8px;
-    padding: 10px;
-    color: var(--secondary-color);
+    margin-bottom: 15px;
 }
 
-td {
-    display: inline-block;
-    padding: 10px;
-    font-size: 16px; /* Larger for visibility */
-    color: var(--secondary-color);
+.slider-container {
+    flex: 1;
+    position: relative;
 }
 
-tr td:first-child {
-    width: 100px; /* Increased width for better spacing */
-}
-
-/* Styling for Text Boxes */
-input[type="text"], input[type="number"], textarea, select {
-    background-color: #FFFFFF !important; /* White background for inputs */
-    color: #000000 !important; /* Black text for readability */
-    border: 1px solid #CCCCCC; /* Light gray border */
-    padding: 5px;
+.slider-input {
+    width: 100%;
+    height: 3px;
+    background: #333;
+    -webkit-appearance: none;
     border-radius: 4px;
+    outline: none;
 }
 
-/* Hover and Focus Effects for Input Fields */
-input[type="text"]:focus, input[type="number"]:focus, textarea:focus, select:focus {
-    border-color: var(--primary-color); /* Accent color on focus */
-    outline: none; /* Remove default outline */
+.slider-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    background: #9FE240;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
-/* Checkbox Styling */
-input[type="checkbox"] {
-    accent-color: var(--primary-color); /* Custom color */
-    transform: scale(1.5); /* Make checkboxes larger */
-    color: var(--secondary-color); /* White checkmark on black */
+.slider-input::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    background: #9FE240;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
 }
 
-/* Responsive Adjustments for Smaller Screens */
+.slider-ticks {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    margin-top: 5px;
+}
+
+.tick {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateX(-50%);
+}
+
+.tick-mark {
+    width: 1px;
+    height: 8px;
+    background-color: #777;
+}
+
+.tick-label {
+    font-size: 12px;
+    color: white;
+    margin-top: 2px;
+}
+
+.number-input {
+    width: 60px !important;
+    height: 40px;
+    text-align: center;
+    font-size: 18px !important;
+    font-weight: bold;
+    border: 2px solid #777 !important;
+    border-radius: 8px;
+}
+
+.number-input:focus {
+    border-color: #9FE240 !important;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-    .main-container {
-        grid-template-columns: 1fr; /* Single-column layout on mobile */
-        text-align: center;
+    .form-section {
+        flex-direction: column;
     }
 
-    form > div label {
-        width: 100%; /* Labels take up full width on mobile */
+    .row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    label {
         text-align: left;
-        margin: 0;
-        margin-bottom: 5px; /* Small margin below each label */
+        width: auto;
     }
 
-    form > div input {
-        width: 100%; /* Inputs also full width on mobile */
+    .column, 
+    .row {
+        max-width: 100%;
     }
-
-    body {
-        font-size: 16px;
-    }
-
-    table {
-        padding: 5px;
-    }
-
-    td {
-        font-size: 14px;
-        padding: 8px;
-    }
-
-    #download, #update {
-        font-size: 16px;
-        padding: 8px 16px;
+    
+    .number-slider {
+        width: 90%;
     }
 }

@@ -26,7 +26,7 @@
             margin: 0;
             font-family: var(--font-family);
             font-size: 18px;
-            background-color: var(--background-color);
+            background-color: #000000;
             color: var(--secondary-color);
             display: flex;
             justify-content: center;
@@ -38,7 +38,7 @@
         .main-container {
             width: 80%;
             max-width: 800px;
-            background-color: rgba(114, 109, 109, 0.95);
+            background-color: rgb(0, 0, 0,);
             padding: 20px;
             margin: 0 auto;
             box-sizing: border-box;
@@ -261,8 +261,7 @@
                 </div>
             </div>
         </div>
-
-        <!-- Unique, Legendary, Loyal -->
+<!-- Unique, Legendary, Loyal -->
         <div class="row checkbox-row">
             <div class="input-field" id="unique-field">
                 <label for="unique">Unique</label>
@@ -270,7 +269,7 @@
             </div>
             <div class="input-field" id="legendary-field">
                 <label for="legendary">Legendary</label>
-                <input type="checkbox" id="legendary" name="legendary" value="true" style="margin-left: 25px;"> <!-- Increased spacing -->
+                <input type="checkbox" id="legendary" name="legendary" value="true">
             </div>
             <div class="input-field" id="loyal-field">
                 <label for="loyal">Loyal</label>
@@ -292,30 +291,59 @@
         </div>
 
         <!-- Stats -->
-        <div class="row">
-            <div class="input-field">
+        <div class="row" id="stats-container">
+            <div class="number-slider">
                 <label for="energy">Energy</label>
-                <input id="energy" name="energy" type="text" maxlength="4" style="width: 50px;"> <!-- Shorter width -->
+                <div class="slider-container">
+                    <input type="range" class="slider-input" id="energy-slider" min="0" max="220" step="5" value="0" data-type="stats">
+                    <div class="slider-ticks" id="energy-ticks"></div>
+                </div>
+                <input type="number" id="energy" name="energy" class="number-input" min="0" max="220" value="0">
             </div>
-            <div class="input-field">
+
+            <div class="number-slider">
                 <label for="courage">Courage</label>
-                <input id="courage" name="courage" type="text" maxlength="4" style="width: 50px;">
+                <div class="slider-container">
+                    <input type="range" class="slider-input" id="courage-slider" min="0" max="220" step="5" value="0" data-type="stats">
+                    <div class="slider-ticks" id="courage-ticks"></div>
+                </div>
+                <input type="number" id="courage" name="courage" class="number-input" min="0" max="220" value="0">
             </div>
-            <div class="input-field">
+
+            <div class="number-slider">
                 <label for="power">Power</label>
-                <input id="power" name="power" type="text" maxlength="4" style="width: 50px;">
+                <div class="slider-container">
+                    <input type="range" class="slider-input" id="power-slider" min="0" max="220" step="5" value="0" data-type="stats">
+                    <div class="slider-ticks" id="power-ticks"></div>
+                </div>
+                <input type="number" id="power" name="power" class="number-input" min="0" max="220" value="0">
             </div>
-            <div class="input-field">
+
+            <div class="number-slider">
                 <label for="wisdom">Wisdom</label>
-                <input id="wisdom" name="wisdom" type="text" maxlength="4" style="width: 50px;">
+                <div class="slider-container">
+                    <input type="range" class="slider-input" id="wisdom-slider" min="0" max="220" step="5" value="0" data-type="stats">
+                    <div class="slider-ticks" id="wisdom-ticks"></div>
+                </div>
+                <input type="number" id="wisdom" name="wisdom" class="number-input" min="0" max="220" value="0">
             </div>
-            <div class="input-field">
+
+            <div class="number-slider">
                 <label for="speed">Speed</label>
-                <input id="speed" name="speed" type="text" maxlength="4" style="width: 50px;">
+                <div class="slider-container">
+                    <input type="range" class="slider-input" id="speed-slider" min="0" max="220" step="5" value="0" data-type="stats">
+                    <div class="slider-ticks" id="speed-ticks"></div>
+                </div>
+                <input type="number" id="speed" name="speed" class="number-input" min="0" max="220" value="0">
             </div>
-            <div class="input-field">
-                <label for="mc">Mugic Ability</label>
-                <input id="mc" name="mc" type="text" maxlength="1" style="width: 50px;">
+
+            <div class="number-slider">
+                <label for="mc">Mugic</label>
+                <div class="slider-container">
+                    <input type="range" class="slider-input" id="mc-slider" min="0" max="5" step="1" value="0" data-type="small">
+                    <div class="slider-ticks" id="mc-ticks"></div>
+                </div>
+                <input type="number" id="mc" name="mc" class="number-input" min="0" max="5" value="0">
             </div>
         </div>
 
@@ -324,30 +352,116 @@
             <button id="download" download="" href="" onclick="download_img(this);">Download</button>
         </div>
     </div>
+<script type="module">
+    import { download, submit } from './js/index.js';
+    window.download_img = download;
+    window.submit = submit;
 
-    <!-- JavaScript to Handle Conditional Display of Fields -->
-    <script type="module">
-        import { download, submit } from './js/index.js';
-        window.download_img = download;
-        window.submit = submit;
+    function updateFields() {
+        const type = document.getElementById('type').value;
+        const allFields = document.querySelectorAll('.input-field, .number-slider');
+        allFields.forEach(field => field.style.display = 'none');
 
-        function updateFields() {
-            const type = document.getElementById('type').value;
-            const allFields = document.querySelectorAll('.input-field');
-            allFields.forEach(field => field.style.display = 'none'); // Hide all fields by default
+        const typeFields = {
+            attack: ['art-field', 'name-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'ability-field', 'artist-field', 'elements'],
+            battlegear: ['art-field', 'name-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'legendary-field', 'ability-field', 'artist-field'],
+            creature: ['art-field', 'name-field', 'subname-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'legendary-field', 'loyal-field', 'ability-field', 'flavor-field', 'artist-field', 'tribe-field', 'elements', 'energy-slider', 'courage-slider', 'power-slider', 'wisdom-slider', 'speed-slider', 'mc-slider'],
+            location: ['art-field', 'name-field', 'subname-field', 'set-field', 'rarity-field', 'subtype-field', 'ability-field', 'flavor-field', 'artist-field'],
+            mugic: ['art-field', 'name-field', 'subname-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'ability-field', 'flavor-field', 'artist-field', 'tribe-field', 'mc-slider']
+        };
 
-            const typeFields = {
-                attack: ['art-field', 'name-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'ability-field', 'artist-field', 'elements', 'energy', 'courage', 'power', 'wisdom', 'speed', 'mc'],
-                battlegear: ['art-field', 'name-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'legendary-field', 'ability-field', 'artist-field'],
-                creature: ['art-field', 'name-field', 'subname-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'legendary-field', 'loyal-field', 'ability-field', 'flavor-field', 'artist-field', 'tribe-field', 'elements', 'energy', 'courage', 'power', 'wisdom', 'speed', 'mc'],
-                location: ['name-field', 'subname-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'ability-field', 'flavor-field', 'artist-field', 'initiative-field'],
-                mugic: ['name-field', 'subname-field', 'set-field', 'rarity-field', 'subtype-field', 'unique-field', 'ability-field', 'flavor-field', 'artist-field', 'tribe-field', 'mc'],
-            };
-
-            if (typeFields[type]) {
-                typeFields[type].forEach(id => document.getElementById(id).style.display = 'flex');
-            }
+        if (typeFields[type]) {
+            typeFields[type].forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.style.display = element.classList.contains('number-slider') ? 'flex' : 'flex';
+                }
+            });
         }
-    </script>
+    }
+
+    // Initialize sliders
+    document.addEventListener('DOMContentLoaded', () => {
+        const sliders = [
+            { id: 'energy', type: 'stats' },
+            { id: 'courage', type: 'stats' },
+            { id: 'power', type: 'stats' },
+            { id: 'wisdom', type: 'stats' },
+            { id: 'speed', type: 'stats' },
+            { id: 'mc', type: 'small' }
+        ];
+
+        sliders.forEach(({ id, type }) => {
+            setupSlider(`${id}-slider`, id, type);
+        });
+    });
+
+    function setupSlider(sliderId, inputId, type) {
+        const slider = document.getElementById(sliderId);
+        const input = document.getElementById(inputId);
+        const ticksContainer = document.getElementById(`${sliderId}-ticks`);
+        
+        let ticks;
+        switch(type) {
+            case 'stats':
+                ticks = [0, 55, 110, 165, 220];
+                break;
+            case 'elements':
+                ticks = [0, 10, 25, 35, 50];
+                break;
+            case 'small':
+                ticks = [0, 1, 2, 3, 4, 5];
+                break;
+        }
+        
+        // Create ticks
+        ticksContainer.innerHTML = '';
+        ticks.forEach(value => {
+            const tick = document.createElement('div');
+            tick.className = 'tick';
+            tick.style.left = `${(value / slider.max) * 100}%`;
+            
+            const mark = document.createElement('div');
+            mark.className = 'tick-mark';
+            
+            const label = document.createElement('div');
+            label.className = 'tick-label';
+            label.textContent = value;
+            
+            tick.appendChild(mark);
+            tick.appendChild(label);
+            ticksContainer.appendChild(tick);
+        });
+        
+        function getClosestMultipleOf5(num) {
+            return Math.round(num / 5) * 5;
+        }
+        
+        slider.addEventListener('input', (e) => {
+            const value = type === 'small' ? parseInt(e.target.value) : getClosestMultipleOf5(parseInt(e.target.value));
+            input.value = value;
+        });
+        
+        input.addEventListener('input', (e) => {
+            let value = parseInt(e.target.value) || 0;
+            if (value > slider.max) value = slider.max;
+            if (value < slider.min) value = slider.min;
+            slider.value = value;
+        });
+        
+        input.addEventListener('blur', (e) => {
+            let value = parseInt(e.target.value) || 0;
+            if (value > slider.max) value = slider.max;
+            if (value < slider.min) value = slider.min;
+            if (type !== 'small') {
+                value = getClosestMultipleOf5(value);
+            }
+            input.value = value;
+            slider.value = value;
+        });
+    }
+
+    window.updateFields = updateFields;
+</script>
 </body>
 </html>

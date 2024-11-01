@@ -105,30 +105,63 @@ export function updateCommonConfig(key, value) {
 
 // This function gathers the form data, loads the assets, and then draws the card
 export async function createCard() {
-    // Rest the old checkboxes values
+    // Reset the old checkboxes values
     (["unique", "legendary", "loyal"]).forEach((value) => {
         delete common_config[value];
     });
 
-    // Gathers the form data and puts them into config
-    const common_data = new FormData(document.getElementById('common-form'));
-    for (const [key, value] of common_data.entries()) {
-        common_config[key] = value;
+    // Gather common form data
+    const commonFields = [
+        'type', 'tribe', 'name', 'subname', 'set', 'rarity', 'subtype',
+        'ability', 'flavor', 'artist', 'art'
+    ];
+
+    commonFields.forEach(field => {
+        const element = document.getElementById(field);
+        if (element) {
+            common_config[field] = element.value;
+        }
+    });
+
+    // Handle checkboxes
+    ['unique', 'legendary', 'loyal'].forEach(field => {
+        const element = document.getElementById(field);
+        if (element && element.checked) {
+            common_config[field] = true;
+        }
+    });
+
+    // Handle loyal restriction
+    if (common_config.loyal) {
+        const loyalRestrict = document.getElementById('loyal_restrict');
+        if (loyalRestrict) {
+            common_config.loyal_restrict = loyalRestrict.value;
+        }
     }
 
-    // Resets card type specific properties between redraws
-    // to prevent old data from persisting after form changes
+    // Reset type config
     type_config = {};
 
-    const type_data = new FormData(document.getElementById('type-form'));
-    for (const [key, value] of type_data.entries()) {
-        type_config[key] = value;
+    // Handle stats for creatures
+    if (common_config.type === 'creature') {
+        ['energy', 'courage', 'power', 'wisdom', 'speed', 'mc'].forEach(stat => {
+            const element = document.getElementById(stat);
+            if (element) {
+                type_config[stat] = element.value;
+            }
+        });
     }
 
-    // Loads all the required images
-    const assets = await loadAssets(common_config, type_config);
+    // Handle elements
+    ['fire', 'air', 'earth', 'water'].forEach(element => {
+        const checkbox = document.getElementById(element);
+        if (checkbox && checkbox.checked) {
+            type_config[element] = true;
+        }
+    });
 
-    // After images are loaded, you can draw the card 
+    // Load assets and draw
+    const assets = await loadAssets(common_config, type_config);
     drawCard(assets);
 
     return Promise.resolve();
