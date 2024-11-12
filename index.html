@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card Creator</title>
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
     <div class="main-container">
+        <!-- Card Preview -->
         <div class="card-preview">
             <canvas id="canvas" width="500" height="700" style="display: block; margin: auto;"></canvas>
         </div>
+
+        <!-- Type Selection -->
         <div class="input-field">
             <label for="type">Card Type</label>
             <select id="type" name="type">
@@ -23,10 +26,14 @@
             </select>
         </div>
 
+        <!-- Basic Form -->
         <div class="form-section">
-            <!-- Column 1 -->
             <div class="column">
-                <div class="input-field" id="tribe-field">
+                <div id="name-field" class="input-field">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name">
+                </div>
+                <div id="tribe-field" class="input-field">
                     <label for="tribe">Tribe</label>
                     <select id="tribe" name="tribe">
                         <option value="tribeless">Tribeless</option>
@@ -37,152 +44,10 @@
                         <option value="m'arrillian">M'arrillian</option>
                     </select>
                 </div>
-                <div class="input-field" id="name-field">
-                    <label for="name">Name</label>
-                    <input id="name" name="name" type="text">
-                </div>
-                <div class="input-field" id="subname-field">
-                    <label for="subname">Subname</label>
-                    <input id="subname" name="subname" type="text">
-                </div>
-                <div class="input-field" id="set-field">
-                    <label for="set">Set</label>
-                    <select id="set" name="set">
-                        <option value="">None</option>
-                        <option value="dop">Dawn Of Perim</option>
-                        <option value="zoth">Zenith of the Hive</option>
-                        <option value="mi">M'arrillian Invasion</option>
-                        <option value="roto">Rise of the Oligarch</option>
-                        <option value="tott">Turn of the Tide</option>
-                        <option value="fu">Forged Unity</option>
-                        <option value="au">Alliances Unraveled</option>
-                        <option value="fas">Fire and Stone</option>
-                    </select>
-                </div>
-                <div class="input-field" id="rarity-field">
-                    <label for="rarity">Rarity</label>
-                    <select id="rarity" name="rarity">
-                        <option value="common">Common</option>
-                        <option value="uncommon">Uncommon</option>
-                        <option value="rare">Rare</option>
-                        <option value="super">Super Rare</option>
-                        <option value="ultra">Ultra Rare</option>
-                        <option value="promo">Promo</option>
-                    </select>
-                </div>
-                <div class="input-field" id="subtype-field">
-                    <label for="subtype">Subtype</label>
-                    <input id="subtype" name="subtype" type="text">
-                </div>
-            </div>
-
-            <!-- Column 2 -->
-            <div class="column">
-                <div class="input-field" id="ability-field">
-                    <label for="ability">Ability</label>
-                    <textarea id="ability" name="ability"></textarea>
-                </div>
-                <div class="input-field" id="flavor-field">
-                    <label for="flavor">Flavor</label>
-                    <textarea id="flavor" name="flavor"></textarea>
-                </div>
-                <div class="input-field" id="artist-field">
-                    <label for="artist">Artist</label>
-                    <input id="artist" name="artist" type="text">
-                </div>
-                <div class="input-field" id="art-field">
-                    <label for="art">Art</label>
-                    <input id="art" type="file" accept="image/*">
-                </div>
             </div>
         </div>
 
-        <!-- Unique, Legendary, Loyal -->
-        <div class="row checkbox-row">
-            <div class="input-field" id="unique-field">
-                <label for="unique">Unique</label>
-                <input type="checkbox" id="unique" name="unique" value="true">
-            </div>
-            <div class="input-field" id="legendary-field">
-                <label for="legendary">Legendary</label>
-                <input type="checkbox" id="legendary" name="legendary" value="true">
-            </div>
-            <div class="input-field" id="loyal-field">
-                <label for="loyal">Loyal</label>
-                <input type="checkbox" id="loyal" name="loyal" value="true">
-                <input type="text" id="loyal_restrict" name="loyal_restrict">
-            </div>
-        </div>
-
-        <!-- Elements -->
-        <div class="input-field" id="elements">
-            <label for="fire">Fire</label>
-            <input type="checkbox" id="fire" name="fire" value="true">
-            <label for="air">Air</label>
-            <input type="checkbox" id="air" name="air" value="true">
-            <label for="earth">Earth</label>
-            <input type="checkbox" id="earth" name="earth" value="true">
-            <label for="water">Water</label>
-            <input type="checkbox" id="water" name="water" value="true">
-        </div>
-
-        <!-- Stats -->
-        <div class="row" id="stats-container">
-            <div class="number-slider">
-                <label for="energy">Energy</label>
-                <div class="slider-container">
-                    <input type="range" class="slider-input" id="energy-slider" min="0" max="220" step="5" value="0" data-type="stats">
-                    <div class="slider-ticks" id="energy-ticks"></div>
-                </div>
-                <input type="number" id="energy" name="energy" class="number-input" min="0" max="220" value="0">
-            </div>
-
-            <div class="number-slider">
-                <label for="courage">Courage</label>
-                <div class="slider-container">
-                    <input type="range" class="slider-input" id="courage-slider" min="0" max="220" step="5" value="0" data-type="stats">
-                    <div class="slider-ticks" id="courage-ticks"></div>
-                </div>
-                <input type="number" id="courage" name="courage" class="number-input" min="0" max="220" value="0">
-            </div>
-
-            <div class="number-slider">
-                <label for="power">Power</label>
-                <div class="slider-container">
-                    <input type="range" class="slider-input" id="power-slider" min="0" max="220" step="5" value="0" data-type="stats">
-                    <div class="slider-ticks" id="power-ticks"></div>
-                </div>
-                <input type="number" id="power" name="power" class="number-input" min="0" max="220" value="0">
-            </div>
-
-            <div class="number-slider">
-                <label for="wisdom">Wisdom</label>
-                <div class="slider-container">
-                    <input type="range" class="slider-input" id="wisdom-slider" min="0" max="220" step="5" value="0" data-type="stats">
-                    <div class="slider-ticks" id="wisdom-ticks"></div>
-                </div>
-                <input type="number" id="wisdom" name="wisdom" class="number-input" min="0" max="220" value="0">
-            </div>
-
-            <div class="number-slider">
-                <label for="speed">Speed</label>
-                <div class="slider-container">
-                    <input type="range" class="slider-input" id="speed-slider" min="0" max="220" step="5" value="0" data-type="stats">
-                    <div class="slider-ticks" id="speed-ticks"></div>
-                </div>
-                <input type="number" id="speed" name="speed" class="number-input" min="0" max="220" value="0">
-            </div>
-
-            <div class="number-slider">
-                <label for="mc">Mugic</label>
-                <div class="slider-container">
-                    <input type="range" class="slider-input" id="mc-slider" min="0" max="5" step="1" value="0" data-type="small">
-                    <div class="slider-ticks" id="mc-ticks"></div>
-                </div>
-                <input type="number" id="mc" name="mc" class="number-input" min="0" max="5" value="0">
-            </div>
-        </div>
-
+        <!-- Buttons -->
         <div style="text-align: center; margin-top: 20px;">
             <button onclick="window.submit()">Update</button>
             <a onclick="window.download(this)" href="#" download="card.jpg">
